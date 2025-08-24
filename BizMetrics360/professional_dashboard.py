@@ -157,8 +157,8 @@ def generate_enterprise_data():
     """Generate enterprise-grade sample data"""
     np.random.seed(42)
     
-    # Revenue data with realistic business patterns
-    dates = pd.date_range(start='2023-01-01', end='2024-01-01', freq='ME')
+    # Revenue data with realistic business patterns (month-end frequency)
+    dates = pd.date_range(start='2023-01-01', end='2023-12-31', freq='M')
     revenue_data = pd.DataFrame({
         'date': dates,
         'revenue': np.random.uniform(500000, 2000000, len(dates)) + np.sin(np.arange(len(dates)) * 0.5) * 200000,
