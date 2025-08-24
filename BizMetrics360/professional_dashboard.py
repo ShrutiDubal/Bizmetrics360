@@ -50,7 +50,7 @@ st.markdown("""
 }
 [data-testid="stSidebar"] * { color: white !important; }
 
-/* Sidebar input boxes (date, text, select) */
+/* Sidebar inputs (date, text, select) */
 [data-testid="stSidebar"] input,
 [data-testid="stSidebar"] textarea,
 [data-testid="stSidebar"] div[role="combobox"] {
@@ -60,8 +60,18 @@ st.markdown("""
   border-radius: 8px !important;
 }
 
-/* Streamlit BaseWeb select styling (value text and arrow) */
-[data-baseweb="select"] * { color: white !important; }
+/* Placeholders + selected text inside inputs/selects */
+[data-testid="stSidebar"] input::placeholder,
+[data-testid="stSidebar"] textarea::placeholder,
+[data-testid="stSidebar"] [data-baseweb="select"] span {
+  color: #ffffff !important;
+  opacity: 1 !important;
+}
+/* Ensure the visible selected value in select is white */
+[data-testid="stSidebar"] [data-baseweb="select"] div {
+  color: #ffffff !important;
+}
+/* Chevron/arrow icons */
 [data-baseweb="select"] svg { fill: white !important; }
 
 /* Dropdown menu portal (options list) */
@@ -72,8 +82,8 @@ st.markdown("""
 }
 [data-baseweb="menu"] * { color: white !important; }
 
-/* Date picker calendar popover */
-.css-1offfwp, .css-1uixxvy { /* best-effort generic popover classes */
+/* Date picker calendar popover (best-effort generic classes) */
+.css-1offfwp, .css-1uixxvy {
   background-color: #2f3e4d !important;
   color: white !important;
 }
@@ -232,7 +242,6 @@ def render_metric_card(label, value, delta=None, format_type="number"):
     else:
         display_value = f"{value:,.0f}"
 
-    # Optional delta (kept white for visibility)
     delta_html = f'<div class="metric-delta">{"+" if delta and delta>0 else ""}{delta:.1f}%</div>' if delta is not None else ""
 
     st.markdown(f"""
@@ -243,7 +252,6 @@ def render_metric_card(label, value, delta=None, format_type="number"):
     </div>
     """, unsafe_allow_html=True)
 
-# Helper to enforce white text on Plotly
 def style_plotly_white(fig, height=400):
     fig.update_layout(
         font=dict(color="white", size=12),
@@ -261,7 +269,6 @@ def style_plotly_white(fig, height=400):
 def main():
     render_header()
 
-    # Data & KPIs
     data = generate_enterprise_data()
     kpis = calculate_enterprise_kpis(data)
 
@@ -296,7 +303,6 @@ def main():
         with col4:
             render_metric_card("Gross Margin", kpis['gross_margin'], kpis['gross_margin'] - 65, "percentage")
 
-        # Revenue Trend
         st.markdown("### 💰 Monthly Revenue Trend")
         revenue_trend = data['revenue'].groupby('date')['revenue'].sum().reset_index()
         fig_revenue = px.line(revenue_trend, x='date', y='revenue', title='Monthly Revenue Trend', template='plotly_white')
