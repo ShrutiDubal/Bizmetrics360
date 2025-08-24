@@ -12,7 +12,7 @@ import plotly.graph_objects as go
 import numpy as np
 from datetime import datetime, timedelta
 
-# Page configuration - MUST BE FIRST
+# ---- Page configuration (must be first) ----
 st.set_page_config(
     page_title='BizMetrics360 - Enterprise BI Platform',
     page_icon='📊',
@@ -24,11 +24,9 @@ st.set_page_config(
 st.markdown("""
 <style>
 /* ---------- Global text color ---------- */
-.stApp, .main, h1, h2, h3, h4, h5, h6, p, label, div, span, small {
-  color: white !important;
-}
+.stApp, .main, h1, h2, h3, h4, h5, h6, p, label, div, span, small { color: #ffffff !important; }
 
-/* Backgrounds */
+/* App backgrounds */
 .main { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
 .stApp { background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
 
@@ -40,15 +38,15 @@ st.markdown("""
   margin-bottom: 30px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
-.header-title { color: white !important; font-size: 2.5rem; font-weight: 700; text-align: center; }
+.header-title { color: #ffffff !important; font-size: 2.5rem; font-weight: 700; text-align: center; }
 .header-subtitle { color: rgba(255,255,255,0.9) !important; text-align: center; font-size: 1.1rem; }
 
 /* ---------- Sidebar ---------- */
 [data-testid="stSidebar"] {
   background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-  color: white !important;
+  color: #ffffff !important;
 }
-[data-testid="stSidebar"] * { color: white !important; }
+[data-testid="stSidebar"] * { color: #ffffff !important; }
 
 /* Inputs (date/text/number) */
 [data-testid="stSidebar"] .stDateInput input,
@@ -67,24 +65,14 @@ st.markdown("""
   border: 1px solid rgba(255,255,255,0.35) !important;
   border-radius: 10px !important;
 }
-
-/* Placeholders + selected text */
-[data-testid="stSidebar"] input::placeholder,
-[data-testid="stSidebar"] textarea::placeholder,
-[data-testid="stSidebar"] [data-baseweb="select"] span {
-  color: #ffffff !important; opacity: 1 !important;
-}
 [data-testid="stSidebar"] [data-baseweb="select"] div { color: #ffffff !important; }
 [data-testid="stSidebar"] [data-baseweb="select"] svg { fill: #ffffff !important; }
 
 /* =================== BaseWeb dropdown menu (portal) — FORCE DARK =================== */
-/* 1) Make the entire popover stack dark */
+/* Make popover + wrappers dark */
 [data-baseweb="popover"],
-[data-baseweb="popover"] * {
-  color: #ffffff !important;
-}
+[data-baseweb="popover"] * { color: #ffffff !important; }
 
-/* 2) Force every wrapper that can hold the options to dark background */
 [data-baseweb="popover"],
 [data-baseweb="popover"] > div,
 [data-baseweb="popover"] [data-baseweb="menu"],
@@ -95,61 +83,80 @@ div[data-baseweb="menu"],
 div[role="listbox"],
 ul[role="listbox"],
 ul[role="listbox"] > li {
-  background-color: #1f2a36 !important;   /* dark navy */
+  background-color: #1f2a36 !important;
   border-color: rgba(255,255,255,0.25) !important;
   box-shadow: 0 10px 24px rgba(0,0,0,0.4) !important;
 }
 
-/* 3) Default option rows */
-[role="option"] {
-  background-color: #1f2a36 !important;
-  color: #ffffff !important;
-}
-
-/* 4) Hover + selected states */
+/* Options */
+[role="option"] { background-color: #1f2a36 !important; color: #ffffff !important; }
 [role="option"]:hover,
-[role="option"][aria-selected="true"] {
-  background-color: #33485e !important;   /* slightly lighter on hover/selected */
-  color: #ffffff !important;
-}
+[role="option"][aria-selected="true"] { background-color: #33485e !important; color: #ffffff !important; }
+[role="option"][aria-disabled="true"] { color: rgba(255,255,255,0.45) !important; }
 
-/* 5) Disabled rows */
-[role="option"][aria-disabled="true"] {
-  color: rgba(255,255,255,0.45) !important;
-}
-
-/* Date picker popover (calendar) */
-div[role="dialog"], div[role="tooltip"] {
-  background-color: #2f3e4d !important;
+/* ---------- Calendar Popover (Date Picker) ---------- */
+/* Entire dialog / calendar area */
+[data-baseweb="datepicker"],
+[data-baseweb="calendar"],
+div[role="dialog"] {
+  background-color: #1f2a36 !important;
   color: #ffffff !important;
   border: 1px solid rgba(255,255,255,0.25) !important;
 }
 
+/* Calendar header (month/year) + navigation */
+[data-baseweb="calendar"] select,
+[data-baseweb="calendar"] option {
+  background-color: #2c3e50 !important;
+  color: #ffffff !important;
+}
+[data-baseweb="calendar"] button, 
+[data-baseweb="calendar"] svg { color: #ffffff !important; fill: #ffffff !important; }
+
+/* Weekday row + grid cells */
+[data-baseweb="calendar"] table,
+[data-baseweb="calendar"] td,
+[data-baseweb="calendar"] th {
+  background-color: #1f2a36 !important;
+  color: #ffffff !important;
+}
+
+/* Day states */
+[data-baseweb="calendar"] td[aria-selected="true"] {
+  background-color: #764ba2 !important;
+  color: #ffffff !important;
+  border-radius: 50% !important;
+}
+[data-baseweb="calendar"] td:hover {
+  background-color: #33485e !important;
+  color: #ffffff !important;
+}
+
 /* ---------- Metric cards ---------- */
 .metric-card {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255,255,255,0.15);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255,255,255,0.18);
   border-radius: 15px;
   padding: 20px;
   margin: 10px 0;
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
 }
-.metric-value { font-size: 2.5rem; font-weight: 700; color: white !important; text-align: center; }
-.metric-label { font-size: 0.9rem; color: white !important; text-align: center; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
-.metric-delta { font-size: 0.8rem; color: white !important; text-align: center; margin-top: 5px; }
+.metric-value { font-size: 2.5rem; font-weight: 700; color: #ffffff !important; text-align: center; }
+.metric-label { font-size: 0.9rem; color: #ffffff !important; text-align: center; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+.metric-delta { font-size: 0.8rem; color: #ffffff !important; text-align: center; margin-top: 5px; }
 
 /* Buttons */
 .stButton > button {
   background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-  color: white !important;
+  color: #ffffff !important;
   border: none; border-radius: 25px; padding: 10px 25px;
   font-weight: 600; transition: all 0.3s ease;
 }
 .stButton > button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
 /* Dataframes */
-.stDataFrame, .stTable, .dataframe { color: white !important; }
+.stDataFrame, .stTable, .dataframe { color: #ffffff !important; }
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -162,7 +169,7 @@ div[role="dialog"], div[role="tooltip"] {
 # ============================== Data ==============================
 @st.cache_data
 def generate_enterprise_data():
-    """Generate enterprise-grade sample data"""
+    """Generate enterprise-grade sample data."""
     np.random.seed(42)
     dates = pd.date_range(start='2023-01-01', end='2023-12-31', freq='M')
 
@@ -206,7 +213,7 @@ def generate_enterprise_data():
 
     return {'revenue': revenue_data, 'customers': customer_data, 'marketing': marketing_data, 'costs': cost_data}
 
-# ============================== KPIs ==============================
+# ============================== KPI Calculations ==============================
 def calculate_enterprise_kpis(data):
     revenue_data = data['revenue']
     customer_data = data['customers']
@@ -223,7 +230,7 @@ def calculate_enterprise_kpis(data):
         mom_growth = yoy_growth = 0
 
     total_marketing_spend = marketing_data['spend'].sum()
-    new_customers = (customer_data['is_new_customer'] == True).sum()
+    new_customers = int((customer_data['is_new_customer'] == True).sum())
     cac = total_marketing_spend / new_customers if new_customers > 0 else 0
 
     avg_order_value = customer_data['total_spent'].mean()
@@ -233,16 +240,16 @@ def calculate_enterprise_kpis(data):
     clv_cac_ratio = clv / cac if cac > 0 else 0
 
     total_customers = len(customer_data)
-    active_customers = (customer_data['is_active'] == True).sum()
+    active_customers = int((customer_data['is_active'] == True).sum())
     retention_rate = (active_customers / total_customers) * 100 if total_customers > 0 else 0
 
-    churned_customers = (customer_data['churned'] == True).sum()
+    churned_customers = int((customer_data['churned'] == True).sum())
     churn_rate = (churned_customers / total_customers) * 100 if total_customers > 0 else 0
 
     total_revenue = revenue_data['revenue'].sum()
     total_costs = cost_data['cost'].sum()
     gross_margin = ((total_revenue - total_costs) / total_revenue) * 100 if total_revenue > 0 else 0
-    net_margin = gross_margin - 15
+    net_margin = gross_margin - 15  # simplified
 
     total_conversions = marketing_data['conversions'].sum()
     total_clicks = marketing_data['clicks'].sum()
@@ -279,7 +286,7 @@ def render_metric_card(label, value, delta=None, format_type="number"):
     else:
         display_value = f"{value:,.0f}"
 
-    delta_html = f'<div class="metric-delta">{"+" if delta and delta>0 else ""}{delta:.1f}%</div>' if delta is not None else ""
+    delta_html = f'<div class="metric-delta">{"+" if (delta is not None and delta>0) else ""}{delta:.1f}%</div>' if delta is not None else ""
 
     st.markdown(f"""
     <div class="metric-card">
@@ -289,13 +296,13 @@ def render_metric_card(label, value, delta=None, format_type="number"):
     </div>
     """, unsafe_allow_html=True)
 
-def style_plotly_white(fig, height=400):
+def style_plotly(fig, height=400):
     fig.update_layout(
-        font=dict(color="white", size=12),
-        title_font=dict(color="white"),
-        xaxis=dict(color="white", title_font=dict(color="white"), tickfont=dict(color="white")),
-        yaxis=dict(color="white", title_font=dict(color="white"), tickfont=dict(color="white")),
-        legend=dict(font=dict(color="white")),
+        font=dict(color="#ffffff", size=12),
+        title_font=dict(color="#ffffff"),
+        xaxis=dict(color="#ffffff", title_font=dict(color="#ffffff"), tickfont=dict(color="#ffffff")),
+        yaxis=dict(color="#ffffff", title_font=dict(color="#ffffff"), tickfont=dict(color="#ffffff")),
+        legend=dict(font=dict(color="#ffffff")),
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
         height=height
@@ -330,30 +337,26 @@ def main():
         st.markdown("## 📊 Executive Summary")
         st.markdown("---")
 
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            render_metric_card("Revenue Growth (MoM)", kpis['mom_growth'], kpis['mom_growth'] - 5, "percentage")
-        with col2:
-            render_metric_card("CLV:CAC Ratio", kpis['clv_cac_ratio'], kpis['clv_cac_ratio'] - 3, "ratio")
-        with col3:
-            render_metric_card("Customer Retention", kpis['retention_rate'], kpis['retention_rate'] - 85, "percentage")
-        with col4:
-            render_metric_card("Gross Margin", kpis['gross_margin'], kpis['gross_margin'] - 65, "percentage")
+        c1, c2, c3, c4 = st.columns(4)
+        with c1: render_metric_card("Revenue Growth (MoM)", kpis['mom_growth'], kpis['mom_growth'] - 5, "percentage")
+        with c2: render_metric_card("CLV:CAC Ratio", kpis['clv_cac_ratio'], kpis['clv_cac_ratio'] - 3, "ratio")
+        with c3: render_metric_card("Customer Retention", kpis['retention_rate'], kpis['retention_rate'] - 85, "percentage")
+        with c4: render_metric_card("Gross Margin", kpis['gross_margin'], kpis['gross_margin'] - 65, "percentage")
 
         st.markdown("### 💰 Monthly Revenue Trend")
         revenue_trend = data['revenue'].groupby('date')['revenue'].sum().reset_index()
         fig_revenue = px.line(revenue_trend, x='date', y='revenue', title='Monthly Revenue Trend', template='plotly_white')
-        st.plotly_chart(style_plotly_white(fig_revenue), use_container_width=True)
+        st.plotly_chart(style_plotly(fig_revenue), use_container_width=True)
 
     with tab2:
         st.markdown("## 💰 Financial Metrics")
         st.markdown("---")
 
-        col1, col2 = st.columns(2)
-        with col1:
+        c1, c2 = st.columns(2)
+        with c1:
             render_metric_card("Total Revenue", kpis['total_revenue'], None, "currency")
             render_metric_card("Net Margin", kpis['net_margin'], None, "percentage")
-        with col2:
+        with c2:
             render_metric_card("Total Costs", kpis['total_costs'], None, "currency")
             render_metric_card("YoY Growth", kpis['yoy_growth'], None, "percentage")
 
@@ -362,17 +365,17 @@ def main():
         fig_profit.add_trace(go.Bar(name='Revenue', x=['Total Revenue'], y=[kpis['total_revenue']], marker_color='#2ecc71'))
         fig_profit.add_trace(go.Bar(name='Costs', x=['Total Costs'], y=[kpis['total_costs']], marker_color='#e74c3c'))
         fig_profit.update_layout(title='Revenue vs Costs', template='plotly_white')
-        st.plotly_chart(style_plotly_white(fig_profit), use_container_width=True)
+        st.plotly_chart(style_plotly(fig_profit), use_container_width=True)
 
     with tab3:
         st.markdown("## 👥 Customer Analytics")
         st.markdown("---")
 
-        col1, col2 = st.columns(2)
-        with col1:
+        c1, c2 = st.columns(2)
+        with c1:
             render_metric_card("Customer Acquisition Cost", kpis['cac'], None, "currency")
             render_metric_card("Customer Lifetime Value", kpis['clv'], None, "currency")
-        with col2:
+        with c2:
             render_metric_card("Active Customers", kpis['active_customers'], None, "number")
             render_metric_card("Churn Rate", kpis['churn_rate'], None, "percentage")
 
@@ -382,17 +385,17 @@ def main():
             'Count': [kpis['active_customers'], kpis['total_customers'] - kpis['active_customers']]
         })
         fig_customers = px.pie(customer_metrics, values='Count', names='Status', title='Customer Status Distribution', template='plotly_white')
-        st.plotly_chart(style_plotly_white(fig_customers), use_container_width=True)
+        st.plotly_chart(style_plotly(fig_customers), use_container_width=True)
 
     with tab4:
         st.markdown("## 📈 Marketing Performance")
         st.markdown("---")
 
-        col1, col2 = st.columns(2)
-        with col1:
+        c1, c2 = st.columns(2)
+        with c1:
             render_metric_card("Conversion Rate", kpis['conversion_rate'], None, "percentage")
             render_metric_card("Cost Per Click", kpis['cpc'], None, "currency")
-        with col2:
+        with c2:
             render_metric_card("Total Marketing Spend", kpis['total_marketing_spend'], None, "currency")
             render_metric_card("Marketing ROI", (kpis['clv_cac_ratio'] - 1) * 100, None, "percentage")
 
@@ -400,7 +403,7 @@ def main():
         channel_perf = data['marketing'].groupby('channel').agg({'spend': 'sum', 'conversions': 'sum', 'clicks': 'sum'}).reset_index()
         channel_perf['roi'] = np.random.uniform(2, 8, len(channel_perf))
         fig_channels = px.bar(channel_perf, x='channel', y='roi', title='Marketing ROI by Channel', template='plotly_white')
-        st.plotly_chart(style_plotly_white(fig_channels), use_container_width=True)
+        st.plotly_chart(style_plotly(fig_channels), use_container_width=True)
 
     # Footer
     st.markdown("---")
@@ -411,6 +414,6 @@ def main():
     </div>
     """, unsafe_allow_html=True)
 
-# Run
+# ---- Run ----
 if __name__ == '__main__':
     main()
