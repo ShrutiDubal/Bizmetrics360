@@ -69,10 +69,7 @@ st.markdown("""
 [data-testid="stSidebar"] [data-baseweb="select"] svg { fill: #ffffff !important; }
 
 /* =================== BaseWeb dropdown menu (portal) — FORCE DARK =================== */
-/* Make popover + wrappers dark */
-[data-baseweb="popover"],
-[data-baseweb="popover"] * { color: #ffffff !important; }
-
+[data-baseweb="popover"], [data-baseweb="popover"] * { color: #ffffff !important; }
 [data-baseweb="popover"],
 [data-baseweb="popover"] > div,
 [data-baseweb="popover"] [data-baseweb="menu"],
@@ -87,54 +84,85 @@ ul[role="listbox"] > li {
   border-color: rgba(255,255,255,0.25) !important;
   box-shadow: 0 10px 24px rgba(0,0,0,0.4) !important;
 }
-
-/* Options */
 [role="option"] { background-color: #1f2a36 !important; color: #ffffff !important; }
-[role="option"]:hover,
-[role="option"][aria-selected="true"] { background-color: #33485e !important; color: #ffffff !important; }
+[role="option"]:hover, [role="option"][aria-selected="true"] { background-color: #33485e !important; color: #ffffff !important; }
 [role="option"][aria-disabled="true"] { color: rgba(255,255,255,0.45) !important; }
 
 /* ---------- Calendar Popover (Date Picker) ---------- */
-/* Whole dialog/calendar area */
-[data-baseweb="datepicker"],
-[data-baseweb="calendar"],
-div[role="dialog"] {
-  background-color: #1a1a1a !important;
+/* Force EVERYTHING inside the calendar popover to dark with white text */
+[data-baseweb="datepicker"], [data-baseweb="calendar"], div[role="dialog"] {
+  background-color: #121821 !important;
   color: #ffffff !important;
   border: 1px solid rgba(255,255,255,0.25) !important;
 }
+[data-baseweb="calendar"] *, [data-baseweb="datepicker"] * {
+  color: #ffffff !important;
+}
 
-/* Calendar header (month/year & arrows) — first row of the calendar grid */
-[data-baseweb="calendar"] [role="row"]:first-child,
-[data-baseweb="calendar"] [role="row"]:first-child * {
-  background-color: #1a1a1a !important;
+/* Header bar (month/year & arrows) */
+[data-baseweb="calendar"] > div:first-child,
+[data-baseweb="calendar"] > div:first-child * {
+  background-color: #121821 !important;
   color: #ffffff !important;
   fill: #ffffff !important;
+  border-color: rgba(255,255,255,0.25) !important;
 }
 
-/* Weekday names row (Su, Mo, ...) — second row */
-[data-baseweb="calendar"] [role="row"]:nth-child(2),
-[data-baseweb="calendar"] [role="row"]:nth-child(2) * {
-  background-color: #1a1a1a !important;
+/* Weekday row */
+[data-baseweb="calendar"] table thead tr,
+[data-baseweb="calendar"] table thead th {
+  background-color: #121821 !important;
   color: #ffffff !important;
 }
 
-/* Days grid (cells + headers) */
-[data-baseweb="calendar"] table,
-[data-baseweb="calendar"] td,
-[data-baseweb="calendar"] th {
-  background-color: #1a1a1a !important;
+/* Day grid default */
+[data-baseweb="calendar"] table tbody td {
+  background-color: #121821 !important;
   color: #ffffff !important;
+  border-color: #2a3646 !important;
 }
 
-/* Day states */
-[data-baseweb="calendar"] td[aria-selected="true"] {
-  background-color: #764ba2 !important;
+/* -------- Range styling -------- */
+/* Middle of range (continuous bar) */
+[data-baseweb="calendar"] td[data-selected="true"],
+[data-baseweb="calendar"] td[aria-selected="true"],
+[data-baseweb="calendar"] td[data-highlighted="true"],
+[data-baseweb="calendar"] td[data-range="true"] {
+  background-color: #4e5f7e !important; /* bar color */
   color: #ffffff !important;
-  border-radius: 50% !important;
+  border-radius: 6px !important;
 }
+
+/* Start / End caps (rounded pills) — catch common variants */
+[data-baseweb="calendar"] td[data-day="range-start"],
+[data-baseweb="calendar"] td[data-date="range-start"],
+[data-baseweb="calendar"] td[data-focus="range-start"],
+[data-baseweb="calendar"] td[aria-label*="Start"],
+[data-baseweb="calendar"] td[aria-label*="range start"],
+[data-baseweb="calendar"] td.start,
+[data-baseweb="calendar"] td[role="gridcell"].start {
+  background-color: #8e44ad !important;
+  color: #ffffff !important;
+  border-top-left-radius: 999px !important;
+  border-bottom-left-radius: 999px !important;
+}
+
+[data-baseweb="calendar"] td[data-day="range-end"],
+[data-baseweb="calendar"] td[data-date="range-end"],
+[data-baseweb="calendar"] td[data-focus="range-end"],
+[data-baseweb="calendar"] td[aria-label*="End"],
+[data-baseweb="calendar"] td[aria-label*="range end"],
+[data-baseweb="calendar"] td.end,
+[data-baseweb="calendar"] td[role="gridcell"].end {
+  background-color: #8e44ad !important;
+  color: #ffffff !important;
+  border-top-right-radius: 999px !important;
+  border-bottom-right-radius: 999px !important;
+}
+
+/* Hover day */
 [data-baseweb="calendar"] td:hover {
-  background-color: #333333 !important;
+  background-color: #2b3647 !important;
   color: #ffffff !important;
 }
 
