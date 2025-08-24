@@ -50,42 +50,53 @@ st.markdown("""
 }
 [data-testid="stSidebar"] * { color: white !important; }
 
-/* Sidebar inputs (date, text, select) */
-[data-testid="stSidebar"] input,
-[data-testid="stSidebar"] textarea,
-[data-testid="stSidebar"] div[role="combobox"] {
-  background-color: rgba(255,255,255,0.12) !important;
-  color: white !important;
+/* Sidebar controls: force DARK surfaces (so white text is visible) */
+[data-testid="stSidebar"] .stDateInput input,
+[data-testid="stSidebar"] .stTextInput input,
+[data-testid="stSidebar"] .stNumberInput input {
+  background-color: rgba(0,0,0,0.35) !important;
+  color: #ffffff !important;
   border: 1px solid rgba(255,255,255,0.35) !important;
-  border-radius: 8px !important;
+  border-radius: 10px !important;
+  caret-color: #ffffff !important;
 }
 
-/* Placeholders + selected text inside inputs/selects */
+/* BaseWeb Select control surface (the visible box) */
+[data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] > div {
+  background-color: rgba(0,0,0,0.35) !important;
+  border: 1px solid rgba(255,255,255,0.35) !important;
+  border-radius: 10px !important;
+}
+
+/* Placeholders + selected text in inputs/selects */
 [data-testid="stSidebar"] input::placeholder,
 [data-testid="stSidebar"] textarea::placeholder,
 [data-testid="stSidebar"] [data-baseweb="select"] span {
   color: #ffffff !important;
   opacity: 1 !important;
 }
-/* Ensure the visible selected value in select is white */
 [data-testid="stSidebar"] [data-baseweb="select"] div {
-  color: #ffffff !important;
+  color: #ffffff !important; /* selected value text */
 }
-/* Chevron/arrow icons */
-[data-baseweb="select"] svg { fill: white !important; }
+[data-testid="stSidebar"] [data-baseweb="select"] svg { fill: #ffffff !important; }
 
 /* Dropdown menu portal (options list) */
-[data-baseweb="menu"] {
-  background-color: #2f3e4d !important;
-  color: white !important;
+div[data-baseweb="menu"] {
+  background-color: #2f3e4d !important;      /* dark menu */
+  color: #ffffff !important;
   border: 1px solid rgba(255,255,255,0.25) !important;
 }
-[data-baseweb="menu"] * { color: white !important; }
+div[data-baseweb="menu"] * { color: #ffffff !important; }
+div[data-baseweb="menu"] [role="option"][aria-selected="true"],
+div[data-baseweb="menu"] [role="option"]:hover {
+  background-color: #3b4d60 !important;       /* hover/selected */
+}
 
-/* Date picker calendar popover (best-effort generic classes) */
-.css-1offfwp, .css-1uixxvy {
+/* Date picker calendar popover */
+div[role="dialog"], div[role="tooltip"] {
   background-color: #2f3e4d !important;
-  color: white !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.25) !important;
 }
 
 /* ---------- Metric cards ---------- */
