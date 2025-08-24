@@ -95,29 +95,35 @@ ul[role="listbox"] > li {
 [role="option"][aria-disabled="true"] { color: rgba(255,255,255,0.45) !important; }
 
 /* ---------- Calendar Popover (Date Picker) ---------- */
-/* Entire dialog / calendar area */
+/* Whole dialog/calendar area */
 [data-baseweb="datepicker"],
 [data-baseweb="calendar"],
 div[role="dialog"] {
-  background-color: #1f2a36 !important;
+  background-color: #1a1a1a !important;
   color: #ffffff !important;
   border: 1px solid rgba(255,255,255,0.25) !important;
 }
 
-/* Calendar header (month/year) + navigation */
-[data-baseweb="calendar"] select,
-[data-baseweb="calendar"] option {
-  background-color: #2c3e50 !important;
+/* Calendar header (month/year & arrows) — first row of the calendar grid */
+[data-baseweb="calendar"] [role="row"]:first-child,
+[data-baseweb="calendar"] [role="row"]:first-child * {
+  background-color: #1a1a1a !important;
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+/* Weekday names row (Su, Mo, ...) — second row */
+[data-baseweb="calendar"] [role="row"]:nth-child(2),
+[data-baseweb="calendar"] [role="row"]:nth-child(2) * {
+  background-color: #1a1a1a !important;
   color: #ffffff !important;
 }
-[data-baseweb="calendar"] button, 
-[data-baseweb="calendar"] svg { color: #ffffff !important; fill: #ffffff !important; }
 
-/* Weekday row + grid cells */
+/* Days grid (cells + headers) */
 [data-baseweb="calendar"] table,
 [data-baseweb="calendar"] td,
 [data-baseweb="calendar"] th {
-  background-color: #1f2a36 !important;
+  background-color: #1a1a1a !important;
   color: #ffffff !important;
 }
 
@@ -128,7 +134,7 @@ div[role="dialog"] {
   border-radius: 50% !important;
 }
 [data-baseweb="calendar"] td:hover {
-  background-color: #33485e !important;
+  background-color: #333333 !important;
   color: #ffffff !important;
 }
 
