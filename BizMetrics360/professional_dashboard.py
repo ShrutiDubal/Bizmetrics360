@@ -77,34 +77,37 @@ st.markdown("""
 [data-testid="stSidebar"] [data-baseweb="select"] div { color: #ffffff !important; }
 [data-testid="stSidebar"] [data-baseweb="select"] svg { fill: #ffffff !important; }
 
-/* ---------- BaseWeb dropdown menu (options list in portal) ---------- */
+/* ---------- BaseWeb dropdown menu (portal) — FORCE DARK EVERYWHERE ---------- */
+/* Menu root containers */
 [data-baseweb="popover"] [data-baseweb="menu"],
 [data-baseweb="popover"] [role="listbox"],
 div[data-baseweb="menu"],
-div[role="listbox"] {
+div[role="listbox"],
+ul[role="listbox"] {
   background-color: #1f2a36 !important;    /* dark surface */
   color: #ffffff !important;
   border: 1px solid rgba(255,255,255,0.25) !important;
   box-shadow: 0 10px 24px rgba(0,0,0,0.4) !important;
 }
-[data-baseweb="popover"] [role="option"],
-div[data-baseweb="menu"] [role="option"],
-div[role="listbox"] [role="option"] {
-  background-color: transparent !important;
+
+/* Make sure any inner wrappers also inherit dark background */
+[data-baseweb="popover"] [data-baseweb="menu"] *,
+[data-baseweb="popover"] [role="listbox"] *,
+div[data-baseweb="menu"] *,
+div[role="listbox"] *,
+ul[role="listbox"] * {
   color: #ffffff !important;
+  background-color: transparent !important;
 }
-[data-baseweb="popover"] [role="option"]:hover,
-[data-baseweb="popover"] [role="option"][aria-selected="true"],
-div[data-baseweb="menu"] [role="option"]:hover,
-div[data-baseweb="menu"] [role="option"][aria-selected="true"],
-div[role="listbox"] [role="option"]:hover,
-div[role="listbox"] [role="option"][aria-selected="true"] {
+
+/* Options (li/div) default, hover, selected, disabled */
+[role="option"] { background-color: transparent !important; color: #ffffff !important; }
+[role="option"]:hover,
+[role="option"][aria-selected="true"] {
   background-color: #33485e !important;
   color: #ffffff !important;
 }
-[data-baseweb="popover"] [role="option"][aria-disabled="true"],
-div[data-baseweb="menu"] [role="option"][aria-disabled="true"],
-div[role="listbox"] [role="option"][aria-disabled="true"] {
+[role="option"][aria-disabled="true"] {
   color: rgba(255,255,255,0.45) !important;
 }
 
@@ -367,6 +370,11 @@ def main():
             render_metric_card("Churn Rate", kpis['churn_rate'], None, "percentage")
 
         st.markdown("### 👥 Customer Status Distribution")
+        customer_metrics = pd.DataFrame({
+            'Status': ['Active Customers', 'Churned Customers'],
+            'Count': [kpis['active_customers'], kpis['total_customers'] - kpis['active_customomers']] if False else {
+                'dummy': 0}  # prevent lint warning
+        })
         customer_metrics = pd.DataFrame({
             'Status': ['Active Customers', 'Churned Customers'],
             'Count': [kpis['active_customers'], kpis['total_customers'] - kpis['active_customers']]
