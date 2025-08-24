@@ -43,14 +43,14 @@ st.markdown("""
 .header-title { color: white !important; font-size: 2.5rem; font-weight: 700; text-align: center; }
 .header-subtitle { color: rgba(255,255,255,0.9) !important; text-align: center; font-size: 1.1rem; }
 
-/* ---------- Sidebar (container + all descendants) ---------- */
+/* ---------- Sidebar ---------- */
 [data-testid="stSidebar"] {
   background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
   color: white !important;
 }
 [data-testid="stSidebar"] * { color: white !important; }
 
-/* Sidebar controls: force DARK surfaces (so white text is visible) */
+/* Inputs (date/text/number) */
 [data-testid="stSidebar"] .stDateInput input,
 [data-testid="stSidebar"] .stTextInput input,
 [data-testid="stSidebar"] .stNumberInput input {
@@ -61,38 +61,52 @@ st.markdown("""
   caret-color: #ffffff !important;
 }
 
-/* BaseWeb Select control surface (the visible box) */
+/* Selectbox visible control surface */
 [data-testid="stSidebar"] .stSelectbox div[data-baseweb="select"] > div {
   background-color: rgba(0,0,0,0.35) !important;
   border: 1px solid rgba(255,255,255,0.35) !important;
   border-radius: 10px !important;
 }
 
-/* Placeholders + selected text in inputs/selects */
+/* Placeholders + selected text */
 [data-testid="stSidebar"] input::placeholder,
 [data-testid="stSidebar"] textarea::placeholder,
 [data-testid="stSidebar"] [data-baseweb="select"] span {
-  color: #ffffff !important;
-  opacity: 1 !important;
+  color: #ffffff !important; opacity: 1 !important;
 }
-[data-testid="stSidebar"] [data-baseweb="select"] div {
-  color: #ffffff !important; /* selected value text */
-}
+[data-testid="stSidebar"] [data-baseweb="select"] div { color: #ffffff !important; }
 [data-testid="stSidebar"] [data-baseweb="select"] svg { fill: #ffffff !important; }
 
-/* Dropdown menu portal (options list) */
-div[data-baseweb="menu"] {
-  background-color: #2f3e4d !important;      /* dark menu */
+/* ---------- GLOBAL BaseWeb dropdown menu (options list) ---------- */
+/* Streamlit renders menus in a portal outside the sidebar; style globally */
+div[data-baseweb="menu"],
+div[role="listbox"] {
+  background-color: #1f2a36 !important;    /* dark surface */
   color: #ffffff !important;
   border: 1px solid rgba(255,255,255,0.25) !important;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.4) !important;
 }
-div[data-baseweb="menu"] * { color: #ffffff !important; }
+div[data-baseweb="menu"] * ,
+div[role="listbox"] * { color: #ffffff !important; }
+
+/* Options states */
+div[data-baseweb="menu"] [role="option"],
+div[role="listbox"] [role="option"] {
+  background-color: transparent !important;
+}
+div[data-baseweb="menu"] [role="option"]:hover,
+div[role="listbox"] [role="option"]:hover,
 div[data-baseweb="menu"] [role="option"][aria-selected="true"],
-div[data-baseweb="menu"] [role="option"]:hover {
-  background-color: #3b4d60 !important;       /* hover/selected */
+div[role="listbox"] [role="option"][aria-selected="true"] {
+  background-color: #33485e !important;
+  color: #ffffff !important;
+}
+div[data-baseweb="menu"] [role="option"][aria-disabled="true"],
+div[role="listbox"] [role="option"][aria-disabled="true"] {
+  color: rgba(255,255,255,0.45) !important;
 }
 
-/* Date picker calendar popover */
+/* Date picker popover (calendar) */
 div[role="dialog"], div[role="tooltip"] {
   background-color: #2f3e4d !important;
   color: #ffffff !important;
