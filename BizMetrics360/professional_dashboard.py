@@ -77,36 +77,43 @@ st.markdown("""
 [data-testid="stSidebar"] [data-baseweb="select"] div { color: #ffffff !important; }
 [data-testid="stSidebar"] [data-baseweb="select"] svg { fill: #ffffff !important; }
 
-/* ---------- BaseWeb dropdown menu (portal) — FORCE DARK EVERYWHERE ---------- */
-/* Menu root containers */
+/* =================== BaseWeb dropdown menu (portal) — FORCE DARK =================== */
+/* 1) Make the entire popover stack dark */
+[data-baseweb="popover"],
+[data-baseweb="popover"] * {
+  color: #ffffff !important;
+}
+
+/* 2) Force every wrapper that can hold the options to dark background */
+[data-baseweb="popover"],
+[data-baseweb="popover"] > div,
 [data-baseweb="popover"] [data-baseweb="menu"],
 [data-baseweb="popover"] [role="listbox"],
+[data-baseweb="popover"] ul[role="listbox"],
+[data-baseweb="popover"] ul[role="listbox"] > li,
 div[data-baseweb="menu"],
 div[role="listbox"],
-ul[role="listbox"] {
-  background-color: #1f2a36 !important;    /* dark surface */
-  color: #ffffff !important;
-  border: 1px solid rgba(255,255,255,0.25) !important;
+ul[role="listbox"],
+ul[role="listbox"] > li {
+  background-color: #1f2a36 !important;   /* dark navy */
+  border-color: rgba(255,255,255,0.25) !important;
   box-shadow: 0 10px 24px rgba(0,0,0,0.4) !important;
 }
 
-/* Make sure any inner wrappers also inherit dark background */
-[data-baseweb="popover"] [data-baseweb="menu"] *,
-[data-baseweb="popover"] [role="listbox"] *,
-div[data-baseweb="menu"] *,
-div[role="listbox"] *,
-ul[role="listbox"] * {
+/* 3) Default option rows */
+[role="option"] {
+  background-color: #1f2a36 !important;
   color: #ffffff !important;
-  background-color: transparent !important;
 }
 
-/* Options (li/div) default, hover, selected, disabled */
-[role="option"] { background-color: transparent !important; color: #ffffff !important; }
+/* 4) Hover + selected states */
 [role="option"]:hover,
 [role="option"][aria-selected="true"] {
-  background-color: #33485e !important;
+  background-color: #33485e !important;   /* slightly lighter on hover/selected */
   color: #ffffff !important;
 }
+
+/* 5) Disabled rows */
 [role="option"][aria-disabled="true"] {
   color: rgba(255,255,255,0.45) !important;
 }
@@ -370,11 +377,6 @@ def main():
             render_metric_card("Churn Rate", kpis['churn_rate'], None, "percentage")
 
         st.markdown("### 👥 Customer Status Distribution")
-        customer_metrics = pd.DataFrame({
-            'Status': ['Active Customers', 'Churned Customers'],
-            'Count': [kpis['active_customers'], kpis['total_customers'] - kpis['active_customomers']] if False else {
-                'dummy': 0}  # prevent lint warning
-        })
         customer_metrics = pd.DataFrame({
             'Status': ['Active Customers', 'Churned Customers'],
             'Count': [kpis['active_customers'], kpis['total_customers'] - kpis['active_customers']]
